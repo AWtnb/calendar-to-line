@@ -13,6 +13,7 @@ const LINE_MAX_TEXT_LENGTH = 5000; // LINEのテキストメッセージ上限
 /**
  * メイン処理（トリガーから呼び出す）
  * トリガーとエディタの実行対象にするため function 宣言とする
+ * 本日の予定がない場合は送信しない
  */
 function main() {
   const props = PropertiesService.getScriptProperties();
@@ -29,8 +30,9 @@ function main() {
   const calendarIds = getCalendarIds(sheetId);
   const today = new Date();
   const events = getTodayEvents(calendarIds, today);
-  const message = buildMessage(events, today);
+  if (events.length === 0) return;
 
+  const message = buildMessage(events, today);
   sendLinePush(accessToken, userId, splitMessage(message));
 }
 
@@ -87,15 +89,12 @@ const getTodayEvents = (calendarIds, today) => {
 
 /**
  * LINE送信用メッセージを組み立てる
+ * events は1件以上であること
  */
 const buildMessage = (events, today) => {
   const tz = Session.getScriptTimeZone();
   const dateStr = Utilities.formatDate(today, tz, "M/d(E)");
   const header = "📅 " + dateStr + " の予定";
-
-  if (events.length === 0) {
-    return header + "\n\n本日の予定はありません。";
-  }
 
   const lines = events.map((ev) => {
     const time = ev.isAllDay
