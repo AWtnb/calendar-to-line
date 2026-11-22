@@ -13,7 +13,7 @@ const formatTimeRange = (ev, tz) => {
   if (ev.isAllDay) return "終日";
   const start = Utilities.formatDate(ev.start, tz, "HH:mm");
   const end = Utilities.formatDate(ev.end, tz, "HH:mm");
-  return `${start}\n~${end}`;
+  return `${start}-${end}`;
 };
 
 /**
@@ -43,14 +43,14 @@ const buildEventRow = (ev, tz) => {
         text: formatTimeRange(ev, tz),
         size: "sm",
         color: "#888888",
-        wrap: true,
-        flex: 3,
+        wrap: false,
+        flex: 4,
       },
       {
         type: "box",
         layout: "vertical",
         spacing: "xs",
-        flex: 7,
+        flex: 6,
         contents: detail,
       },
     ],
@@ -62,7 +62,7 @@ const buildEventRow = (ev, tz) => {
  */
 const buildBubble = (group, dateStr, tz) => ({
   type: "bubble",
-  size: "mega",
+  size: "kilo",
   header: {
     type: "box",
     layout: "vertical",
@@ -98,7 +98,7 @@ const buildBubble = (group, dateStr, tz) => ({
  */
 const buildFlexMessage = (groups, today) => {
   const tz = Session.getScriptTimeZone();
-  const dateStr = Utilities.formatDate(today, tz, "M/d(E)");
+  const dateStr = Utilities.formatDate(today, tz, "M/d (E)");
   const eventCount = groups.reduce((sum, g) => sum + g.events.length, 0);
 
   if (MAX_BUBBLES < groups.length) {
