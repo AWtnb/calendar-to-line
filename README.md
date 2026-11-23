@@ -1,5 +1,10 @@
 # README
 
+<figure>
+  <img alt="icon" src="icon.png" style="width: 120px;">
+  <figcaption>Source: <a href="https://experience-japan.info/pict/h_kane">鐘を打つ | EXPERIENCE JAPAN PICTOGRAMS</a></figcaption>
+</figure>
+
 
 複数Googleカレンダーの本日の予定を自分のLINEに送信するGoogle Apps Script
 
